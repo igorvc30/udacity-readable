@@ -7,3 +7,8 @@ export const getPosts = () => {
 export const createPost = post => {
   return HTTP.post(`/posts`, post);
 };
+
+export const editPost = (post, id) => {
+  console.log(JSON.stringify(post));
+  return HTTP.put(`/posts/${id}`, post);
+};

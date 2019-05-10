@@ -48,7 +48,8 @@ class App extends Component {
           <Content style={{ padding: '20px 30px 20px 30px', marginTop: 64 }}>
             <div style={{ background: '#fff', padding: 24, minHeight: 480 }}>
               <Route path="/:category?" exact component={PostList} />
-              <Route path="/post/new:id?" component={PostForm} />
+              <Route path="/post/new" component={PostForm} />
+              <Route path="/post/edit/:id" component={PostForm} />
             </div>
           </Content>
           <Footer style={{ textAlign: 'center' }}>Developed by Igor V. Costa</Footer>

@@ -14,8 +14,13 @@ class PostsList extends Component {
       <div style={{ minHeight: 400 }}>
         <h1>LISTAS + {category}</h1>
         <ul>
-          {posts.map(post => (
-            <li> {post.title} </li>
+          {Object.entries(posts).map(([key, value]) => (
+            <li key={value.id}>
+              {value.title}
+              <Link to={`/post/edit/${value.id}`}>
+                <Button size="large" icon="pencil" />
+              </Link>
+            </li>
           ))}
         </ul>
         <Affix style={{ position: 'absolute', right: 80, bottom: 100 }}>
@@ -41,7 +46,7 @@ class PostsList extends Component {
 }
 const mapStateToProps = ({ posts }, props) => {
   const { category } = props.match.params;
-
+  console.log(JSON.stringify(posts));
   return {
     category,
     posts: Object.keys(posts).map((key, index) => posts[key])

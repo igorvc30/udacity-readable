@@ -1,9 +1,9 @@
-import { createPost } from '../services/PostService';
 import { showLoading, hideLoading } from 'react-redux-loading';
-import { getPosts } from './../services/PostService';
+import { getPosts, createPost, editPost as edit } from './../services/PostService';
 
 export const ADD_POST = 'ADD_POST';
 export const RECEIVE_POSTS = 'RECEIVE_POSTS';
+export const EDIT_POST = 'EDIT_POST';
 
 export function receivePosts(posts) {
   return {
@@ -19,6 +19,13 @@ function addPost(post) {
   };
 }
 
+function editPost(post) {
+  return {
+    type: EDIT_POST,
+    post
+  };
+}
+
 export function handleAddPost(post) {
   return dispatch => {
     dispatch(showLoading());
@@ -29,6 +36,20 @@ export function handleAddPost(post) {
       .then(res => {
         const post = res.data;
         dispatch(addPost(post));
+      })
+      .finally(() => dispatch(hideLoading()));
+  };
+}
+
+export function handleEditPost(post) {
+  return dispatch => {
+    dispatch(showLoading());
+    console.log(JSON.stringify(post));
+    const { title, body } = post;
+    return edit({ title, body }, post.id)
+      .then(res => {
+        const post = res.data;
+        dispatch(editPost(post));
       })
       .finally(() => dispatch(hideLoading()));
   };

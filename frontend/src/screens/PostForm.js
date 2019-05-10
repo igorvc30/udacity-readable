@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Form, Radio, Button, Input, Row, Col } from 'antd';
-import { handleAddPost } from './../actions/posts';
+import { handleAddPost, handleEditPost } from './../actions/posts';
 import { Link, withRouter } from 'react-router-dom';
 
 class PostForm extends Component {
@@ -15,7 +15,8 @@ class PostForm extends Component {
       if (!err) {
         console.log('Received values of form: ', values);
         if (this.props.id) {
-          console.log('ATUALIZAR POST');
+          values['id'] = this.props.id;
+          this.props.dispatch(handleEditPost(values));
         } else {
           this.props.dispatch(handleAddPost(values));
         }
@@ -25,7 +26,7 @@ class PostForm extends Component {
   };
 
   render() {
-    const { categories, id } = this.props;
+    const { categories, id, post } = this.props;
     const { getFieldDecorator } = this.props.form;
     const { TextArea } = Input;
     const formItemLayout = {
@@ -39,6 +40,7 @@ class PostForm extends Component {
         <Form layout="horizontal" onSubmit={this.handleSubmit}>
           <Form.Item label={<b>Category</b>} {...formItemLayout}>
             {getFieldDecorator('category', {
+              initialValue: post.category,
               rules: [{ required: true, message: 'Please select a category!' }]
             })(
               <Radio.Group>
@@ -52,6 +54,7 @@ class PostForm extends Component {
           </Form.Item>
           <Form.Item {...formItemLayout} label={<b>Title</b>}>
             {getFieldDecorator('title', {
+              initialValue: post.title,
               rules: [
                 {
                   required: true,
@@ -62,6 +65,7 @@ class PostForm extends Component {
           </Form.Item>
           <Form.Item {...formItemLayout} label={<b>Content</b>}>
             {getFieldDecorator('body', {
+              initialValue: post.body,
               rules: [
                 {
                   required: true,
@@ -72,6 +76,7 @@ class PostForm extends Component {
           </Form.Item>
           <Form.Item {...formItemLayout} label={<b>Author</b>}>
             {getFieldDecorator('author', {
+              initialValue: post.author,
               rules: [
                 {
                   required: true,
@@ -104,11 +109,12 @@ class PostForm extends Component {
   }
 }
 
-function mapStateToProps({ categories }, props) {
+function mapStateToProps({ categories, posts }, props) {
   const { id } = props.match.params;
   return {
     id,
-    categories: Object.keys(categories).map((key, index) => categories[key])
+    categories: Object.keys(categories).map((key, index) => categories[key]),
+    post: id ? posts[id] : { category: '', title: '', body: '', author: '' }
   };
 }
 
