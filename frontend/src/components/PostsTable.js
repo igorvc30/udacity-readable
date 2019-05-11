@@ -1,18 +1,19 @@
 import React, { Component } from 'react';
 import { Table, Button, Modal, Tag, Tooltip, Icon } from 'antd';
+import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
+import { handleRemovePost, handleVotePost } from '../actions/posts';
 
 class PostsTable extends Component {
-  showDeleteConfirm = id => {
+  showDeleteConfirm = postId => {
     Modal.confirm({
-      title: 'Are you sure delete this field?',
+      title: 'Are you sure delete this post?',
       // content: 'Some descriptions',
       okText: 'Yes',
       okType: 'danger',
       cancelText: 'No',
       onOk: () => {
-        // this.state.delete(id);
-        console.log('delete saporra ' + id);
+        this.props.dispatch(handleRemovePost(postId));
       },
       onCancel: () => {
         console.log('Cancel');
@@ -33,7 +34,7 @@ class PostsTable extends Component {
         ),
         dataIndex: 'timestamp',
         width: 320,
-        key: 'title',
+        key: 'title' + Date.now(),
         sorter: (a, b) => {
           if (a.timestamp < b.timestamp) {
             return -1;
@@ -50,21 +51,21 @@ class PostsTable extends Component {
         title: 'Author',
         dataIndex: 'author',
         width: 120,
-        key: 'author',
+        key: 'author' + Date.now(),
         render: text => <span>{text}</span>
       },
       {
         title: 'Coments',
         dataIndex: 'commentCount',
         width: 20,
-        key: 'commentCount',
+        key: 'commentCount' + Date.now(),
         render: text => <span>{text}</span>
       },
       {
         title: 'Score',
         dataIndex: 'voteScore',
         width: 20,
-        key: 'voteScore',
+        key: 'voteScore' + Date.now(),
         sorter: (a, b) => {
           if (a.voteScore < b.voteScore) {
             return -1;
@@ -85,12 +86,26 @@ class PostsTable extends Component {
       {
         title: 'Vote',
         dataIndex: 'id',
-        // colSpan: 6,
         width: 50,
+        key: 'id' + +Date.now(),
         render: id => (
           <>
-            <Button type="primary" ghost icon="like" />
-            &nbsp; <Button type="danger" ghost icon="dislike" /> &nbsp;
+            <Button
+              type="primary"
+              ghost
+              icon="like"
+              onClick={() => {
+                this.props.dispatch(handleVotePost(id, 'upVote'));
+              }}
+            />
+            <Button
+              type="danger"
+              ghost
+              icon="dislike"
+              onClick={() => {
+                this.props.dispatch(handleVotePost(id, 'downVote'));
+              }}
+            />
           </>
         )
       },
@@ -98,11 +113,17 @@ class PostsTable extends Component {
         title: 'Action',
         dataIndex: 'id',
         width: 80,
-        render: id => (
+        key: 'action' + +Date.now(),
+        render: postId => (
           <>
-            {/* onClick={() => this.handleEditQuestion(id)}  */}
-            <Button type="danger" icon="delete" />
-            <Link to={`/post/edit/${id}`}>
+            <Button
+              type="danger"
+              icon="delete"
+              onClick={() => {
+                this.showDeleteConfirm(postId);
+              }}
+            />
+            <Link to={`/post/edit/${postId}`}>
               <Button type="default" icon="edit" />
             </Link>
             <Button type="primary" icon="search" />
@@ -114,4 +135,4 @@ class PostsTable extends Component {
   }
 }
 
-export default PostsTable;
+export default connect()(PostsTable);

@@ -1,8 +1,11 @@
+import { v4 } from 'node-uuid';
 import { showLoading, hideLoading } from 'react-redux-loading';
 import {
   getPosts,
   createPost,
   editPost as edit,
+  votePost as vote,
+  deletePost as remove,
   getPostsCategory
 } from './../services/PostService';
 
@@ -10,6 +13,7 @@ export const ADD_POST = 'ADD_POST';
 export const RECEIVE_POSTS = 'RECEIVE_POSTS';
 export const EDIT_POST = 'EDIT_POST';
 export const POSTS_CATEGORY = 'POSTS_CATEGORY';
+export const REMOVE_POST = 'REMOVE_POST';
 
 export function receivePosts(posts) {
   return {
@@ -32,12 +36,18 @@ function editPost(post) {
   };
 }
 
+function removePost(post) {
+  return {
+    type: REMOVE_POST,
+    post
+  };
+}
+
 export function handleAddPost(post) {
   return dispatch => {
     dispatch(showLoading());
-    const date = Date.now();
-    post['id'] = date.toString();
-    post['timestamp'] = date;
+    post['id'] = v4();
+    post['timestamp'] = Date.now();
     return createPost(post)
       .then(res => {
         const post = res.data;
@@ -56,6 +66,30 @@ export function handleEditPost(post) {
       .then(res => {
         const post = res.data;
         dispatch(editPost(post));
+      })
+      .finally(() => dispatch(hideLoading()));
+  };
+}
+
+export function handleVotePost(id, option) {
+  return dispatch => {
+    dispatch(showLoading());
+    return vote(id, option)
+      .then(res => {
+        const post = res.data;
+        dispatch(editPost(post));
+      })
+      .finally(() => dispatch(hideLoading()));
+  };
+}
+
+export function handleRemovePost(postId) {
+  return dispatch => {
+    dispatch(showLoading());
+    return remove(postId)
+      .then(res => {
+        const post = res.data;
+        dispatch(removePost(post));
       })
       .finally(() => dispatch(hideLoading()));
   };

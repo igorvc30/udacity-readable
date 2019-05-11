@@ -6,8 +6,8 @@ import { Layout, Menu, Icon } from 'antd';
 import { NavLink } from 'react-router-dom';
 import { connect } from 'react-redux';
 import LoadingBar from 'react-redux-loading';
-import { handleCategoriesList } from './../actions/categories';
-import { handleInitialPosts } from './../actions/posts';
+import { handleCategoriesList } from '../actions/categories';
+import { handleInitialPosts } from '../actions/posts';
 import PostForm from './PostForm';
 import PostList from './PostsList';
 
@@ -45,7 +45,7 @@ class App extends Component {
             </Menu>
             <LoadingBar />
           </Header>
-          <Content style={{ padding: '20px 30px 20px 30px', marginTop: 64 }}>
+          <Content style={{ padding: '20px 40px 20px 40px', marginTop: 64 }}>
             <div style={{ background: '#fff', padding: 24, minHeight: 480 }}>
               <Route path="/:category?" exact component={PostList} />
               <Route path="/post/new" component={PostForm} />

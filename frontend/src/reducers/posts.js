@@ -1,4 +1,4 @@
-import { RECEIVE_POSTS, ADD_POST, EDIT_POST } from '../actions/posts';
+import { RECEIVE_POSTS, ADD_POST, EDIT_POST, REMOVE_POST } from '../actions/posts';
 
 const posts = (state = {}, action) => {
   switch (action.type) {
@@ -8,17 +8,6 @@ const posts = (state = {}, action) => {
       return {
         ...indexedPosts
       };
-    // case TOGGLE_TWEET:
-    //   return {
-    //     ...state,
-    //     [action.id]: {
-    //       ...state[action.id],
-    //       likes:
-    //         action.hasLiked === true
-    //           ? state[action.id].likes.filter(uid => uid !== action.authedUser)
-    //           : state[action.id].likes.concat([action.authedUser])
-    //     }
-    //   };
     case ADD_POST:
       return {
         ...state,
@@ -29,6 +18,15 @@ const posts = (state = {}, action) => {
         ...state,
         [action.post.id]: action.post
       };
+    case REMOVE_POST:
+      if (action.post.deleted) {
+        delete state[`${action.post.id}`];
+      }
+      return state;
+
+    // return Object.assign({}, state, {
+    //   items: [...state.filter(post => post.id !== action.id)]
+    // });
     default:
       return state;
   }

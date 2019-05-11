@@ -13,6 +13,15 @@ export const createPost = post => {
 };
 
 export const editPost = (post, id) => {
-  console.log(JSON.stringify(post));
   return HTTP.put(`/posts/${id}`, post);
+};
+
+export const deletePost = id => {
+  console.log(`DELETE ${id}`);
+  return HTTP.delete(`/posts/${id}`);
+};
+
+export const votePost = (id, option) => {
+  console.log(`${id} >> ${option}`);
+  return HTTP.post(`/posts/${id}`, { option });
 };

@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Affix, Button } from 'antd';
+import { Affix, Button, Tooltip } from 'antd';
 import { Link, withRouter } from 'react-router-dom';
-import { handlePostsCategory, handleInitialPosts } from './../actions/posts';
-import PostsTable from './../components/PostsTable';
+import { handlePostsCategory, handleInitialPosts } from '../actions/posts';
+import PostsTable from './PostsTable';
 
 class PostsList extends Component {
   componentWillReceiveProps(nextProps) {
@@ -21,18 +21,19 @@ class PostsList extends Component {
     return (
       <div style={{ minHeight: 400 }}>
         <PostsTable posts={postsArray} />
-        <Affix style={{ position: 'absolute', right: 80, bottom: 100 }}>
+        <Affix style={{ position: 'absolute', right: 15, bottom: 50 }}>
           <Link to="/post/new">
-            <Button
-              size="large"
-              icon="plus"
-              type="primary"
-              onClick={() => {
-                console.log('CLICADO');
-              }}
-            >
-              Add Post
-            </Button>
+            <Tooltip title="Create a new post.">
+              <Button
+                size="large"
+                icon="plus"
+                type="primary"
+                shape="circle"
+                onClick={() => {
+                  console.log('CLICADO');
+                }}
+              />
+            </Tooltip>
           </Link>
         </Affix>
       </div>

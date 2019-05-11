@@ -8,7 +8,7 @@ const defaultData = {
     timestamp: 1467166872634,
     title: 'Udacity is the best place to learn React',
     body: 'Everyone says so after all.',
-    author: 'thingtwo',
+    author: 'thing0',
     category: 'react',
     voteScore: 6,
     deleted: false,
@@ -22,6 +22,28 @@ const defaultData = {
     author: 'thingone',
     category: 'redux',
     voteScore: -5,
+    deleted: false,
+    commentCount: 0
+  },
+  "8xf043435jab88rrd253nd": {
+    id: '8xf043435jab88rrd253nd',
+    timestamp: 1467166872634,
+    title: 'Udacity is the best place to learn Node',
+    body: 'Node says so after all.',
+    author: 'thing3',
+    category: 'node',
+    voteScore: 3,
+    deleted: false,
+    commentCount: 2
+  },
+  "6n87t6rtfy5te5gff1p33lnez": {
+    id: '6n87t6rtfy5te5gff1p33lnez',
+    timestamp: 1468479767190,
+    title: 'Learn Udacity in 1 term !',
+    body: 'Just kidding. It takes more than 1 month minutes to learn technology.',
+    author: 'igor',
+    category: 'udacity',
+    voteScore: 0,
     deleted: false,
     commentCount: 0
   }

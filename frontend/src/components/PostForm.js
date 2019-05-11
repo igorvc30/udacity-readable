@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Form, Radio, Button, Input, Row, Col } from 'antd';
-import { handleAddPost, handleEditPost } from './../actions/posts';
-import { Link, withRouter } from 'react-router-dom';
+import { handleAddPost, handleEditPost } from '../actions/posts';
+import { Link } from 'react-router-dom';
 
 class PostForm extends Component {
   componentDidMount() {
