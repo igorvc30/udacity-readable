@@ -4,6 +4,10 @@ export const getPosts = () => {
   return HTTP.get(`/posts`);
 };
 
+export const getPostsCategory = category => {
+  return HTTP.get(`/${category}/posts`);
+};
+
 export const createPost = post => {
   return HTTP.post(`/posts`, post);
 };

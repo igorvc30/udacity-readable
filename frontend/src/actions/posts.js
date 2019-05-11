@@ -1,9 +1,15 @@
 import { showLoading, hideLoading } from 'react-redux-loading';
-import { getPosts, createPost, editPost as edit } from './../services/PostService';
+import {
+  getPosts,
+  createPost,
+  editPost as edit,
+  getPostsCategory
+} from './../services/PostService';
 
 export const ADD_POST = 'ADD_POST';
 export const RECEIVE_POSTS = 'RECEIVE_POSTS';
 export const EDIT_POST = 'EDIT_POST';
+export const POSTS_CATEGORY = 'POSTS_CATEGORY';
 
 export function receivePosts(posts) {
   return {
@@ -55,13 +61,24 @@ export function handleEditPost(post) {
   };
 }
 
-export function handleinitialPosts() {
+export function handleInitialPosts() {
   return dispatch => {
     dispatch(showLoading());
     return getPosts()
       .then(res => {
         const posts = res.data;
-        console.log(JSON.stringify(posts));
+        dispatch(receivePosts(posts));
+      })
+      .finally(dispatch(hideLoading()));
+  };
+}
+
+export function handlePostsCategory(category) {
+  return dispatch => {
+    dispatch(showLoading());
+    return getPostsCategory(category)
+      .then(res => {
+        const posts = res.data;
         dispatch(receivePosts(posts));
       })
       .finally(dispatch(hideLoading()));

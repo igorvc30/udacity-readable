@@ -2,10 +2,16 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Affix, Button } from 'antd';
 import { Link, withRouter } from 'react-router-dom';
+import { handlePostsCategory, handleInitialPosts } from './../actions/posts';
 
 class PostsList extends Component {
-  componentDidMount() {
-    console.log('rota?');
+  componentWillReceiveProps(nextProps) {
+    const { category } = nextProps;
+    if (category !== this.props.category) {
+      category
+        ? this.props.dispatch(handlePostsCategory(category))
+        : this.props.dispatch(handleInitialPosts());
+    }
   }
 
   render() {
@@ -46,10 +52,9 @@ class PostsList extends Component {
 }
 const mapStateToProps = ({ posts }, props) => {
   const { category } = props.match.params;
-  console.log(JSON.stringify(posts));
   return {
     category,
-    posts: Object.keys(posts).map((key, index) => posts[key])
+    posts
   };
 };
 export default withRouter(connect(mapStateToProps)(PostsList));

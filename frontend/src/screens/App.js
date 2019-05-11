@@ -7,14 +7,14 @@ import { NavLink } from 'react-router-dom';
 import { connect } from 'react-redux';
 import LoadingBar from 'react-redux-loading';
 import { handleCategoriesList } from './../actions/categories';
-import { handleinitialPosts } from './../actions/posts';
+import { handleInitialPosts, handlePostsCategory } from './../actions/posts';
 import PostForm from './PostForm';
 import PostList from './PostsList';
 
 class App extends Component {
   componentDidMount() {
     this.props.dispatch(handleCategoriesList());
-    this.props.dispatch(handleinitialPosts());
+    this.props.dispatch(handleInitialPosts());
   }
 
   render() {
