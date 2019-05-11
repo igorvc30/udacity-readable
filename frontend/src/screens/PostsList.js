@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { Affix, Button } from 'antd';
 import { Link, withRouter } from 'react-router-dom';
 import { handlePostsCategory, handleInitialPosts } from './../actions/posts';
+import PostsTable from './../components/PostsTable';
 
 class PostsList extends Component {
   componentWillReceiveProps(nextProps) {
@@ -16,19 +17,10 @@ class PostsList extends Component {
 
   render() {
     const { category, posts } = this.props;
+    const postsArray = Object.entries(posts).map(([key, value]) => value);
     return (
       <div style={{ minHeight: 400 }}>
-        <h1>LISTAS + {category}</h1>
-        <ul>
-          {Object.entries(posts).map(([key, value]) => (
-            <li key={value.id}>
-              {value.title}
-              <Link to={`/post/edit/${value.id}`}>
-                <Button size="large" icon="pencil" />
-              </Link>
-            </li>
-          ))}
-        </ul>
+        <PostsTable posts={postsArray} />
         <Affix style={{ position: 'absolute', right: 80, bottom: 100 }}>
           <Link to="/post/new">
             <Button
@@ -36,13 +28,10 @@ class PostsList extends Component {
               icon="plus"
               type="primary"
               onClick={() => {
-                //   this.setState({
-                //     bottom: this.state.bottom + 10,
-                //   });
                 console.log('CLICADO');
               }}
             >
-              Post
+              Add Post
             </Button>
           </Link>
         </Affix>

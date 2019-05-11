@@ -7,7 +7,7 @@ import { NavLink } from 'react-router-dom';
 import { connect } from 'react-redux';
 import LoadingBar from 'react-redux-loading';
 import { handleCategoriesList } from './../actions/categories';
-import { handleInitialPosts, handlePostsCategory } from './../actions/posts';
+import { handleInitialPosts } from './../actions/posts';
 import PostForm from './PostForm';
 import PostList from './PostsList';
 
@@ -19,7 +19,7 @@ class App extends Component {
 
   render() {
     const { Header, Content, Footer } = Layout;
-    const { categories } = this.props;
+    const { categories, category } = this.props;
     return (
       <Router>
         <Layout>
@@ -27,7 +27,7 @@ class App extends Component {
             <Menu
               theme="dark"
               mode="horizontal"
-              // defaultSelectedKeys={['home']}
+              defaultSelectedKeys={[`${category ? category : 'home'}`]}
               style={{ lineHeight: '64px' }}
             >
               <Menu.Item key="home">
@@ -59,9 +59,10 @@ class App extends Component {
   }
 }
 
-function mapStateToProps({ categories }) {
+function mapStateToProps({ categories, category }) {
   return {
-    categories: Object.keys(categories).map((key, index) => categories[key])
+    categories: Object.keys(categories).map((key, index) => categories[key]),
+    category
   };
 }
 
