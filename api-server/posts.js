@@ -38,7 +38,7 @@ const defaultData = {
   },
   "6n87t6rtfy5te5gff1p33lnez": {
     id: '6n87t6rtfy5te5gff1p33lnez',
-    timestamp: 1468479767190,
+    timestamp: 1557795333000,
     title: 'Learn Udacity in 1 term !',
     body: 'Just kidding. It takes more than 1 month minutes to learn technology.',
     author: 'igor',

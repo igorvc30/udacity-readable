@@ -23,7 +23,7 @@ class App extends Component {
     return (
       <Router>
         <Layout>
-          <Header style={{ position: 'fixed', zIndex: 1, width: '100%' }}>
+          <Header style={{ position: 'fixed', zIndex: 100, width: '100%' }}>
             <Menu
               theme="dark"
               mode="horizontal"

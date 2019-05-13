@@ -1,4 +1,4 @@
-import { RECEIVE_POSTS, ADD_POST, EDIT_POST, REMOVE_POST } from '../actions/posts';
+import { RECEIVE_POSTS, ADD_POST, EDIT_POST, REMOVE_POST, SORT_POSTS } from '../actions/posts';
 
 const posts = (state = {}, action) => {
   switch (action.type) {
@@ -23,10 +23,17 @@ const posts = (state = {}, action) => {
         delete state[`${action.post.id}`];
       }
       return state;
-
-    // return Object.assign({}, state, {
-    //   items: [...state.filter(post => post.id !== action.id)]
-    // });
+    case SORT_POSTS:
+      const sortByKey = key => (a, b) => a[key] < b[key];
+      const postsArray = Object.entries(state).map(([key, value]) => value);
+      const sorted = postsArray.sort(sortByKey(action.sortType));
+      console.log(JSON.stringify(postsArray));
+      return sorted;
+    // if(action.sortType === "date"){
+    //   return;
+    // }else{
+    //   return;
+    // }
     default:
       return state;
   }

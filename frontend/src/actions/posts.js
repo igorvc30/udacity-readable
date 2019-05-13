@@ -14,6 +14,7 @@ export const RECEIVE_POSTS = 'RECEIVE_POSTS';
 export const EDIT_POST = 'EDIT_POST';
 export const POSTS_CATEGORY = 'POSTS_CATEGORY';
 export const REMOVE_POST = 'REMOVE_POST';
+export const SORT_POSTS = 'SORT_POSTS';
 
 export function receivePosts(posts) {
   return {
@@ -40,6 +41,13 @@ function removePost(post) {
   return {
     type: REMOVE_POST,
     post
+  };
+}
+
+export function sortPosts(sortType) {
+  return {
+    type: SORT_POSTS,
+    sortType
   };
 }
 
