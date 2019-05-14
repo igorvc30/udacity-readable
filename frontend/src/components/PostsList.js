@@ -30,33 +30,27 @@ class PostsList extends Component {
   };
 
   render() {
-    const { posts } = this.props;
+    const { posts, category } = this.props;
     const postsArray = Object.entries(posts).map(([key, value]) => value);
     const { view } = this.state;
     return (
       <div style={{ minHeight: 400 }}>
         <Row type="flex" justify="center" style={{ marginBottom: '20px' }}>
-          <Col span={15}>
+          <Col span={14}>
             <h1>READABLE POSTS</h1>
           </Col>
           <Col span={3}>
             <Link to="/post/new">
               <Tooltip title="Create a new post.">
-                <Button
-                  icon="plus"
-                  type="primary"
-                  onClick={() => {
-                    console.log('CLICADO');
-                  }}
-                >
-                  New post
+                <Button icon="plus" type="primary">
+                  NEW POST
                 </Button>
               </Tooltip>
             </Link>
           </Col>
           <Col span={3}>
             <Radio.Group value={this.state.view} onChange={this.handleViewChange}>
-              <span>View:&nbsp;</span>
+              <span>VIEW:&nbsp;</span>
               <Radio.Button value="grid">
                 <Icon type="appstore" />
               </Radio.Button>
@@ -65,15 +59,25 @@ class PostsList extends Component {
               </Radio.Button>
             </Radio.Group>
           </Col>
-          <Col span={3}>
+          <Col span={4}>
             <Radio.Group onChange={this.handleSortChange}>
-              <span>Sort:&nbsp;</span>
-              <Radio.Button value="timestamp">
-                <Icon type="calendar" />
-              </Radio.Button>
-              <Radio.Button value="voteScore">
-                <Icon type="star" />
-              </Radio.Button>
+              <span>SORT:&nbsp;</span>
+              <Tooltip title="By date">
+                <Radio.Button value="timestamp">
+                  <Icon type="calendar" />
+                </Radio.Button>
+              </Tooltip>
+
+              <Tooltip title="By vote score">
+                <Radio.Button value="voteScore">
+                  <Icon type="star" />
+                </Radio.Button>
+              </Tooltip>
+              <Tooltip title="By comments count">
+                <Radio.Button value="commentCount">
+                  <Icon type="fire" theme="filled" />
+                </Radio.Button>
+              </Tooltip>
             </Radio.Group>
           </Col>
         </Row>

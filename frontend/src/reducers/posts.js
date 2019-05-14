@@ -29,11 +29,6 @@ const posts = (state = {}, action) => {
       const sorted = postsArray.sort(sortByKey(action.sortType));
       console.log(JSON.stringify(postsArray));
       return sorted;
-    // if(action.sortType === "date"){
-    //   return;
-    // }else{
-    //   return;
-    // }
     default:
       return state;
   }

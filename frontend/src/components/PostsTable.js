@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Table, Tooltip, Icon } from 'antd';
 import VoteButton from './VoteButton';
 import ActionsButtons from './ActionsButtons';
+import { handleVotePost } from '../actions/posts';
 
 const PostsTable = props => {
   const { posts } = props;
@@ -57,14 +58,14 @@ const PostsTable = props => {
         return 0;
       },
       sortDirections: ['ascend', 'descend'],
-      render: post => <VoteButton post={post} />
+      render: post => <VoteButton handleVote={handleVotePost} data={post} />
     },
     {
       title: 'Action',
-      dataIndex: 'id',
+      // dataIndex: 'id',
       width: 80,
       key: 'action' + +Date.now(),
-      render: postId => <ActionsButtons postId={postId} />
+      render: post => <ActionsButtons post={post} />
     }
   ];
   return <Table columns={columns} dataSource={posts} rowKey="id" pagination={true} />;

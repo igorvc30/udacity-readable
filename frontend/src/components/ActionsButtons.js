@@ -1,45 +1,27 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { Button, Modal, Row, Col } from 'antd';
+import { Button, Row, Col } from 'antd';
 import { handleRemovePost } from '../actions/posts';
+import DeleteButton from './DeleteButton';
 
 const ActionsButtons = props => {
-  function showDeleteConfirm(postId) {
-    Modal.confirm({
-      title: 'Are you sure delete this post?',
-      // content: 'Some descriptions',
-      okText: 'Yes',
-      okType: 'danger',
-      cancelText: 'No',
-      onOk: () => {
-        props.dispatch(handleRemovePost(postId));
-      },
-      onCancel: () => {
-        console.log('Cancel');
-      }
-    });
-  }
-  const { postId } = props;
+  const { post } = props;
   return (
     <>
       <Row type="flex" justify="start" gutter={5}>
         <Col>
-          <Button
-            type="danger"
-            icon="delete"
-            onClick={() => {
-              showDeleteConfirm(postId);
-            }}
-          />
+          <DeleteButton id={post.id} handleRemove={handleRemovePost} />
         </Col>
         <Col>
-          <Link to={`/post/edit/${postId}`}>
+          <Link to={`/post/edit/${post.id}`}>
             <Button type="default" icon="edit" />
           </Link>
         </Col>
         <Col>
-          <Button type="primary" icon="search" />
+          <Link to={`/${post.category}/${post.id}`}>
+            <Button type="primary" icon="search" />
+          </Link>
         </Col>
       </Row>
     </>

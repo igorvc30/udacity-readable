@@ -3,13 +3,15 @@ import { BrowserRouter as Router, Route } from 'react-router-dom';
 import 'antd/dist/antd.css';
 import './App.css';
 import { Layout, Menu, Icon } from 'antd';
-import { NavLink } from 'react-router-dom';
+import { NavLink, Switch } from 'react-router-dom';
 import { connect } from 'react-redux';
 import LoadingBar from 'react-redux-loading';
 import { handleCategoriesList } from '../actions/categories';
 import { handleInitialPosts } from '../actions/posts';
-import PostForm from './PostForm';
+import { handleAddPost, handleEditPost } from '../actions/posts';
+import DataForm from './DataForm';
 import PostList from './PostsList';
+import PostInfo from './PostInfo';
 
 class App extends Component {
   componentDidMount() {
@@ -47,9 +49,23 @@ class App extends Component {
           </Header>
           <Content style={{ padding: '20px 40px 20px 40px', marginTop: 64 }}>
             <div style={{ background: '#fff', padding: 24, minHeight: 480 }}>
-              <Route path="/:category?" exact component={PostList} />
-              <Route path="/post/new" component={PostForm} />
-              <Route path="/post/edit/:id" component={PostForm} />
+              <Switch>
+                <Route path="/:category?" exact component={PostList} />
+                <Route
+                  path="/post/new"
+                  exact
+                  render={props => (
+                    <DataForm formType="post" handleData={handleAddPost} {...props} />
+                  )}
+                />
+                <Route
+                  path="/post/edit/:id"
+                  render={props => (
+                    <DataForm formType="post" handleData={handleEditPost} {...props} />
+                  )}
+                />
+                <Route path="/:category/:id" component={PostInfo} />
+              </Switch>
             </div>
           </Content>
           <Footer style={{ textAlign: 'center' }}>Developed by Igor V. Costa</Footer>

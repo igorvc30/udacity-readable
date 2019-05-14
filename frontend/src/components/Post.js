@@ -2,22 +2,22 @@ import React, { Component } from 'react';
 import { Card, Icon, Input, Badge, Row, Col } from 'antd';
 import VoteButton from './VoteButton';
 import ActionsButtons from './ActionsButtons';
+import { handleVotePost } from '../actions/posts';
 import moment from 'moment';
 
 class Post extends Component {
   render() {
     const { post } = this.props;
-    const { Meta } = Card;
     const { TextArea } = Input;
     return (
       <Card
         title={<b>{post.title}</b>}
         actions={[
-          <VoteButton post={post} />,
+          <VoteButton data={post} handleVote={handleVotePost} />,
           <Badge count={post.commentCount}>
             <Icon type="retweet" style={{ fontSize: '24px' }} />
           </Badge>,
-          <ActionsButtons postId={post.id} />
+          <ActionsButtons post={post} />
         ]}
       >
         <TextArea

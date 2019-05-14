@@ -12,16 +12,15 @@ export const createPost = post => {
   return HTTP.post(`/posts`, post);
 };
 
-export const editPost = (post, id) => {
-  return HTTP.put(`/posts/${id}`, post);
+export const editPost = (post, postId) => {
+  return HTTP.put(`/posts/${postId}`, post);
 };
 
-export const deletePost = id => {
-  console.log(`DELETE ${id}`);
-  return HTTP.delete(`/posts/${id}`);
+export const deletePost = postId => {
+  console.log(`DELETE ${postId}`);
+  return HTTP.delete(`/posts/${postId}`);
 };
 
-export const votePost = (id, option) => {
-  console.log(`${id} >> ${option}`);
-  return HTTP.post(`/posts/${id}`, { option });
+export const votePost = (postId, option) => {
+  return HTTP.post(`/posts/${postId}`, { option });
 };

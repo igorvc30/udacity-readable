@@ -1,33 +1,53 @@
 import React from 'react';
-import { handleVotePost } from '../actions/posts';
 import { connect } from 'react-redux';
 import { Button, Badge } from 'antd';
+import { PropTypes } from 'prop-types';
 
-const VoteButton = props => (
-  <>
-    <Badge
-      count={props.post.voteScore}
-      style={{ backgroundColor: '#fff', color: '#999', boxShadow: '0 0 0 1px #d9d9d9 inset' }}
-    >
-      <Button
-        type="primary"
-        ghost
-        icon="like"
-        onClick={() => {
-          props.dispatch(handleVotePost(props.post.id, 'upVote'));
+const VoteButton = props => {
+  const { handleVote, size } = props;
+  return (
+    <>
+      <Badge
+        count={props.data.voteScore}
+        style={{
+          fontWeight: 'bold',
+          backgroundColor: '#fff',
+          color: '#999',
+          boxShadow: '0 0 0 1px #d9d9d9 inset'
         }}
-      />
-      &nbsp;
-      <Button
-        type="danger"
-        ghost
-        icon="dislike"
-        onClick={() => {
-          props.dispatch(handleVotePost(props.post.id, 'downVote'));
-        }}
-      />
-    </Badge>
-  </>
-);
+      >
+        <Button
+          size={size}
+          type="primary"
+          ghost
+          icon="like"
+          onClick={() => {
+            props.dispatch(handleVote(props.data.id, 'upVote'));
+          }}
+        />
+        &nbsp;
+        <Button
+          size={size}
+          type="danger"
+          ghost
+          icon="dislike"
+          onClick={() => {
+            props.dispatch(handleVote(props.data.id, 'downVote'));
+          }}
+        />
+      </Badge>
+    </>
+  );
+};
+
+VoteButton.propTypes = {
+  handleVote: PropTypes.func.isRequired,
+  size: PropTypes.string,
+  data: PropTypes.object.isRequired
+};
+
+VoteButton.defaultProps = {
+  size: 'default'
+};
 
 export default connect()(VoteButton);
