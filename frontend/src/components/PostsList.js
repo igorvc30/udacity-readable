@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Radio, Button, Tooltip, Row, Col, Icon } from 'antd';
+import { Radio, Button, Tooltip, Row, Col, Icon, Divider } from 'antd';
 import { Link, withRouter } from 'react-router-dom';
 import { handlePostsCategory, handleInitialPosts, sortPosts } from '../actions/posts';
 import PostsTable from './PostsTable';
@@ -35,9 +35,9 @@ class PostsList extends Component {
     const { view } = this.state;
     return (
       <div style={{ minHeight: 400 }}>
-        <Row type="flex" justify="center" style={{ marginBottom: '20px' }}>
-          <Col span={14}>
-            <h1>READABLE POSTS</h1>
+        <Row type="flex" justify="center">
+          <Col span={12} offset={2}>
+            <h1>POSTS</h1>
           </Col>
           <Col span={3}>
             <Link to="/post/new">
@@ -81,6 +81,7 @@ class PostsList extends Component {
             </Radio.Group>
           </Col>
         </Row>
+        <Divider orientation="left" />
         {postsArray.length > 0 && view === 'list' && <PostsTable posts={postsArray} />}
         {postsArray.length > 0 && view === 'grid' && (
           <Row gutter={20}>

@@ -27,7 +27,6 @@ const posts = (state = {}, action) => {
       const sortByKey = key => (a, b) => a[key] < b[key];
       const postsArray = Object.entries(state).map(([key, value]) => value);
       const sorted = postsArray.sort(sortByKey(action.sortType));
-      console.log(JSON.stringify(postsArray));
       return sorted;
     default:
       return state;

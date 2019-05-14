@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Form, Radio, Button, Input, Row, Col } from 'antd';
+import { Form, Radio, Button, Input, Row, Col, Divider } from 'antd';
 import { Link } from 'react-router-dom';
 
 class DataForm extends Component {
@@ -41,7 +41,10 @@ class DataForm extends Component {
 
     return (
       <div>
-        <h1 style={{ textAlign: 'center' }}>{`${formRule} ${formType}`.toUpperCase()}</h1>
+        {/* <h1 style={{ textAlign: 'center' }}>{`${formRule} ${formType}`.toUpperCase()}</h1> */}
+        <Divider orientation="left">
+          <h1>{`${formRule} ${formType}`.toUpperCase()}</h1>
+        </Divider>
         <Form layout="horizontal" onSubmit={this.handleSubmit}>
           {formType === 'post' && (
             <>
@@ -84,22 +87,32 @@ class DataForm extends Component {
               ]
             })(<TextArea autosize={{ minRows: 4, maxRows: 10 }} />)}
           </Form.Item>
-          <Form.Item {...formItemLayout} label={<b>Author</b>}>
-            {getFieldDecorator('author', {
-              initialValue: data.author,
-              rules: [
-                {
-                  required: true,
-                  message: "Please input author's name."
-                }
-              ]
-            })(<Input placeholder="Please input the author's name" />)}
-          </Form.Item>
+          {formType === 'post' && (
+            <Form.Item {...formItemLayout} label={<b>Author</b>}>
+              {getFieldDecorator('author', {
+                initialValue: data.author,
+                rules: [
+                  {
+                    required: true,
+                    message: "Please input author's name."
+                  }
+                ]
+              })(<Input placeholder="Please input the author's name" />)}
+            </Form.Item>
+          )}
           <Row type="flex">
             <Col span={4} offset={3}>
               <Form.Item>
                 <Link to="/">
-                  <Button type="ghost" block>
+                  <Button
+                    type="ghost"
+                    block
+                    onClick={() => {
+                      if (formRule === 'Edit' && formType === 'comment') {
+                        this.props.closeModal();
+                      }
+                    }}
+                  >
                     Back
                   </Button>
                 </Link>
@@ -107,7 +120,16 @@ class DataForm extends Component {
             </Col>
             <Col span={4} offset={8}>
               <Form.Item>
-                <Button type="primary" htmlType="submit" block>
+                <Button
+                  type="primary"
+                  htmlType="submit"
+                  block
+                  onClick={() => {
+                    if (formRule === 'Edit' && formType === 'comment') {
+                      this.props.closeModal();
+                    }
+                  }}
+                >
                   {formRule}
                 </Button>
               </Form.Item>
