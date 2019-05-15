@@ -2,13 +2,14 @@
 # Readable API Server
 
 This is the the final assessment project for Udacity's Redux course where a content and comment web app was develop. 
-Users will be able to post content to predefined categories, comment on their posts and other users' posts, and vote on posts and comments. Users will also be able to edit and delete posts and comments. 
+* Users will be able to post content to predefined categories, comment on their posts and other users' posts, and vote on posts and comments. 
+* Users will also be able to edit and delete posts and comments. 
 
-# Contains New Features!
-User will be able to visualize posts by grid or table list and filter by category.
-User will be able to sort posts by date, vote and comments count.
+### Contains new features!
+* User will be able to visualize posts by grid or table list and filter by category.
+* User will be able to sort posts by date, vote and comments count.
 
-This repository includes the code for the backend API Server that you'll use to develop and interact with the front-end portion of the project.
+
 
 ## Style Guides
 
@@ -32,7 +33,7 @@ This project was bootstrapped with [Create ReactApp](https://github.com/facebook
 
 ## Start Developing
 
-To get started developing right away:
+This repository includes the code for the backend API Server that you'll use to develop and interact with the front-end portion of the project. To get started developing right away:
 
 * Install dependencies and start the API server
 ```sh
