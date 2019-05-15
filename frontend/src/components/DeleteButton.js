@@ -6,7 +6,7 @@ import { PropTypes } from 'prop-types';
 const DeleteButton = props => {
   function showDeleteConfirm(id) {
     Modal.confirm({
-      title: 'Are you sure delete this?',
+      title: 'Are ready to delete this?',
       okText: 'Yes',
       okType: 'danger',
       cancelText: 'No',

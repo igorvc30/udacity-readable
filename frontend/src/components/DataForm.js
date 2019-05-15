@@ -2,8 +2,16 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Form, Radio, Button, Input, Row, Col, Divider } from 'antd';
 import { Link } from 'react-router-dom';
+import { PropTypes } from 'prop-types';
 
 class DataForm extends Component {
+  static propTypes = {
+    id: PropTypes.string,
+    commentId: PropTypes.string,
+    formType: PropTypes.string.isRequired,
+    handleData: PropTypes.func.isRequired
+  };
+
   handleSubmit = e => {
     e.preventDefault();
     const { formType, postId, commentId } = this.props;
@@ -41,9 +49,8 @@ class DataForm extends Component {
 
     return (
       <div>
-        {/* <h1 style={{ textAlign: 'center' }}>{`${formRule} ${formType}`.toUpperCase()}</h1> */}
         <Divider orientation="left">
-          <h1>{`${formRule} ${formType}`.toUpperCase()}</h1>
+          <h2>{`${formRule} ${formType}`.toUpperCase()}</h2>
         </Divider>
         <Form layout="horizontal" onSubmit={this.handleSubmit}>
           {formType === 'post' && (
@@ -87,7 +94,8 @@ class DataForm extends Component {
               ]
             })(<TextArea autosize={{ minRows: 4, maxRows: 10 }} />)}
           </Form.Item>
-          {formType === 'post' && (
+          {/* Author field should not apper at the form when it's Edit Comment action*/}
+          {(formType === 'post' || (formType === 'comment' && formRule === 'Create')) && (
             <Form.Item {...formItemLayout} label={<b>Author</b>}>
               {getFieldDecorator('author', {
                 initialValue: data.author,

@@ -1,13 +1,18 @@
 import React, { Component } from 'react';
-import { Comment, Tooltip, List, Modal, Icon, Divider, Button } from 'antd';
+import { Comment, Tooltip, List, Modal, Divider, Button } from 'antd';
 import VoteButton from './VoteButton';
 import { handleVoteComment, handleRemoveComment, handleEditComment } from '../actions/comments';
 import DeleteButton from './DeleteButton';
 // import EditCommentButton from './EditCommentButton';
 import DataForm from './DataForm';
 import moment from 'moment';
+import { PropTypes } from 'prop-types';
 
 class PostComments extends Component {
+  static propTypes = {
+    comments: PropTypes.arrayOf(PropTypes.object).isRequired
+  };
+
   state = { visible: false, commentId: '' };
 
   showModal = commentId => {

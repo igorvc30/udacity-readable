@@ -1,8 +1,9 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { Table, Tooltip, Icon } from 'antd';
 import VoteButton from './VoteButton';
 import ActionsButtons from './ActionsButtons';
 import { handleVotePost } from '../actions/posts';
+import { PropTypes } from 'prop-types';
 
 const PostsTable = props => {
   const { posts } = props;
@@ -69,6 +70,9 @@ const PostsTable = props => {
     }
   ];
   return <Table columns={columns} dataSource={posts} rowKey="id" pagination={true} />;
+};
+PostsTable.propTypes = {
+  posts: PropTypes.arrayOf(PropTypes.object).isRequired
 };
 
 export default PostsTable;

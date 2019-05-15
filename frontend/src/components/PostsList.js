@@ -30,7 +30,7 @@ class PostsList extends Component {
   };
 
   render() {
-    const { posts, category } = this.props;
+    const { posts } = this.props;
     const postsArray = Object.entries(posts).map(([key, value]) => value);
     const { view } = this.state;
     return (

@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import { Button, Row, Col } from 'antd';
 import { handleRemovePost } from '../actions/posts';
 import DeleteButton from './DeleteButton';
+import { PropTypes } from 'prop-types';
 
 const ActionsButtons = props => {
   const { post } = props;
@@ -26,6 +27,10 @@ const ActionsButtons = props => {
       </Row>
     </>
   );
+};
+
+ActionsButtons.propTypes = {
+  post: PropTypes.object.isRequired
 };
 
 export default connect()(ActionsButtons);
