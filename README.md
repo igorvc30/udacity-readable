@@ -1,6 +1,5 @@
 [![code style: prettier](https://img.shields.io/badge/code_style-prettier-ff69b4.svg?style=flat-square)](https://github.com/prettier/prettier)
-# Readable API Server
-
+# Readable 
 This is the the final assessment project for Udacity's Redux course where a content and comment web app was develop. 
 * Users will be able to post content to predefined categories, comment on their posts and other users' posts, and vote on posts and comments. 
 * Users will also be able to edit and delete posts and comments. 

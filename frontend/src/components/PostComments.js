@@ -1,16 +1,16 @@
 import React, { Component } from 'react';
 import { Comment, Tooltip, List, Modal, Divider, Button } from 'antd';
 import VoteButton from './VoteButton';
-import { handleVoteComment, handleRemoveComment, handleEditComment } from '../actions/comments';
+import { handleVoteComment, handleRemoveComment } from '../actions/comments';
 import DeleteButton from './DeleteButton';
 // import EditCommentButton from './EditCommentButton';
-import DataForm from './DataForm';
+import CommentForm from './CommentForm';
 import moment from 'moment';
 import { PropTypes } from 'prop-types';
 
 class PostComments extends Component {
   static propTypes = {
-    comments: PropTypes.arrayOf(PropTypes.object).isRequired
+    comments: PropTypes.PropTypes.object.isRequired
   };
 
   state = { visible: false, commentId: '' };
@@ -89,12 +89,7 @@ class PostComments extends Component {
           width={700}
           style={{ whiteSpace: 'initial' }}
         >
-          <DataForm
-            commentId={commentId}
-            formType="comment"
-            handleData={handleEditComment}
-            closeModal={this.closeModal}
-          />
+          <CommentForm commentId={commentId} closeModal={this.closeModal} />
         </Modal>
       </>
     );

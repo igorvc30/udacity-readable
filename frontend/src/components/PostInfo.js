@@ -1,17 +1,16 @@
 import React, { Component } from 'react';
-import { handleGetAllComments, handleAddComment } from '../actions/comments';
+import { handleGetAllComments } from '../actions/comments';
 import { Divider } from 'antd';
 import { connect } from 'react-redux';
 import Post from './Post';
 import PostComments from './PostComments';
-import DataForm from './DataForm';
+import CommentForm from './CommentForm';
 import Page404 from './Page404';
 
 class PostInfo extends Component {
   componentWillMount() {
-    const { dispatch } = this.props;
-    if (Object.keys(dispatch).length === 0 && dispatch.constructor === Object)
-      dispatch(handleGetAllComments(this.props.post.id));
+    const { dispatch, post } = this.props;
+    if (post) dispatch(handleGetAllComments(this.props.post.id));
   }
 
   render() {
@@ -24,8 +23,8 @@ class PostInfo extends Component {
           <h1>POST INFORMATION</h1>
         </Divider>
         <Post post={post} />
-        <PostComments comments={comments} />
-        <DataForm formType="comment" id={post.id} handleData={handleAddComment} />
+        {Object.keys(comments).length > 0 && <PostComments comments={comments} />}
+        <CommentForm postId={post.id} />
       </>
     );
   }

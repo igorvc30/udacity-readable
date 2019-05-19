@@ -8,10 +8,9 @@ import { connect } from 'react-redux';
 import LoadingBar from 'react-redux-loading';
 import { handleCategoriesList } from '../actions/categories';
 import { handleInitialPosts } from '../actions/posts';
-import { handleAddPost, handleEditPost } from '../actions/posts';
-import DataForm from './DataForm';
 import PostList from './PostsList';
 import PostInfo from './PostInfo';
+import PostForm from './PostForm';
 
 class App extends Component {
   componentDidMount() {
@@ -51,19 +50,8 @@ class App extends Component {
             <div style={{ background: '#fff', padding: 24, minHeight: 480 }}>
               <Switch>
                 <Route path="/:category?" exact component={PostList} />
-                <Route
-                  path="/post/new"
-                  exact
-                  render={props => (
-                    <DataForm formType="post" handleData={handleAddPost} {...props} />
-                  )}
-                />
-                <Route
-                  path="/post/edit/:id"
-                  render={props => (
-                    <DataForm formType="post" handleData={handleEditPost} {...props} />
-                  )}
-                />
+                <Route path="/post/new" exact component={PostForm} />
+                <Route path="/post/edit/:id" component={PostForm} />
                 <Route path="/:category/:id" component={PostInfo} />
               </Switch>
             </div>

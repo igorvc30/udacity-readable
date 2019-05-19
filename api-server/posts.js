@@ -34,7 +34,7 @@ const defaultData = {
     category: 'node',
     voteScore: 3,
     deleted: false,
-    commentCount: 2
+    commentCount: 0
   },
   "6n87t6rtfy5te5gff1p33lnez": {
     id: '6n87t6rtfy5te5gff1p33lnez',
