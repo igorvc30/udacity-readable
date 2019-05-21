@@ -1,6 +1,6 @@
 import React from 'react';
 import { Row, Col } from 'antd';
-import error from './../components/error.gif';
+import error from './error.gif';
 
 const Page404 = () => (
   <Row type="flex" justify="space-between" align="top">

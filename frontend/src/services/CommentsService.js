@@ -1,4 +1,4 @@
-import { HTTP } from './config';
+import HTTP from './config';
 
 export const getComments = postId => {
   return HTTP.get(`/posts/${postId}/comments`);

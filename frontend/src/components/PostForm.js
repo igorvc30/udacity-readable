@@ -1,31 +1,27 @@
+/* eslint-disable react/jsx-one-expression-per-line */
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { getFieldInput, getFieldConfig } from './FormField';
-import { Form, Button, Col, Row, Divider } from 'antd';
 import { Link } from 'react-router-dom';
-import { PropTypes } from 'prop-types';
+import { Form, Button, Col, Row, Divider } from 'antd';
+import { getFieldInput, getFieldConfig } from './FormField';
 import { handleAddPost, handleEditPost } from '../actions/posts';
 
 class PostForm extends Component {
-  static propTypes = {
-    id: PropTypes.string
-  };
-
   handleSubmit = e => {
     e.preventDefault();
-    const { postId, editPost, addPost } = this.props;
+    const { postId, editPost, addPost, form, history } = this.props;
 
-    this.props.form.validateFields((err, values) => {
+    form.validateFields((err, values) => {
+      const post = values;
       if (!err) {
-        console.log('Received values of form: ', values);
         if (postId) {
-          values['id'] = postId;
-          editPost(values);
+          post.id = postId;
+          editPost(post);
         } else {
-          addPost(values);
+          addPost(post);
         }
 
-        this.props.history.push(`/`);
+        history.push(`/`);
       }
     });
   };
@@ -83,10 +79,10 @@ class PostForm extends Component {
 }
 
 function mapStateToProps({ categories, posts }, props) {
-  const id = props.match ? props.match.params['id'] : props.id;
+  const id = props.match ? props.match.params.id : props.id;
   return {
     postId: id || props.id,
-    categories: Object.keys(categories).map((key, index) => categories[key]),
+    categories: Object.keys(categories).map(key => categories[key]),
     post: posts[id] || {
       category: '',
       title: '',

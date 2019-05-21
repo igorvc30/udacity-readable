@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
-import { handleGetAllComments } from '../actions/comments';
 import { Divider } from 'antd';
 import { connect } from 'react-redux';
+import { handleGetAllComments } from '../actions/comments';
 import Post from './Post';
 import PostComments from './PostComments';
 import CommentForm from './CommentForm';
@@ -10,7 +10,7 @@ import Page404 from './Page404';
 class PostInfo extends Component {
   componentWillMount() {
     const { dispatch, post } = this.props;
-    if (post) dispatch(handleGetAllComments(this.props.post.id));
+    if (post) dispatch(handleGetAllComments(post.id));
   }
 
   render() {
@@ -31,7 +31,7 @@ class PostInfo extends Component {
 }
 
 const mapStateToProps = ({ posts, comments }, props) => {
-  const id = props.match.params['id'];
+  const { id } = props.match.params;
   return {
     post: id ? posts[id] : { id: '', category: '', title: '', body: '', author: '' },
     comments

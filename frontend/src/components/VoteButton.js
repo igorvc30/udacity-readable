@@ -1,14 +1,14 @@
+/* eslint-disable react/jsx-one-expression-per-line */
 import React from 'react';
 import { connect } from 'react-redux';
 import { Button, Badge } from 'antd';
-import { PropTypes } from 'prop-types';
+import PropTypes from 'prop-types';
 
-const VoteButton = props => {
-  const { handleVote, size } = props;
+const VoteButton = ({ vote, size, data }) => {
   return (
     <>
       <Badge
-        count={props.data.voteScore}
+        count={data.voteScore}
         style={{
           fontWeight: 'bold',
           backgroundColor: '#fff',
@@ -22,7 +22,7 @@ const VoteButton = props => {
           ghost
           icon="like"
           onClick={() => {
-            props.dispatch(handleVote(props.data.id, 'upVote'));
+            vote(data.id, 'upVote');
           }}
         />
         &nbsp;
@@ -32,7 +32,7 @@ const VoteButton = props => {
           ghost
           icon="dislike"
           onClick={() => {
-            props.dispatch(handleVote(props.data.id, 'downVote'));
+            vote(data.id, 'downVote');
           }}
         />
       </Badge>
@@ -43,11 +43,20 @@ const VoteButton = props => {
 VoteButton.propTypes = {
   handleVote: PropTypes.func.isRequired,
   size: PropTypes.string,
-  data: PropTypes.object.isRequired
+  data: PropTypes.instanceOf(Object).isRequired
 };
 
 VoteButton.defaultProps = {
   size: 'default'
 };
 
-export default connect()(VoteButton);
+function mapDispatchToProps(dispatch, ownProps) {
+  return {
+    vote: (id, value) => dispatch(ownProps.handleVote(id, value))
+  };
+}
+
+export default connect(
+  null,
+  mapDispatchToProps
+)(VoteButton);

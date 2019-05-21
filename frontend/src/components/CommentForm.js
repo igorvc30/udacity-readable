@@ -1,39 +1,34 @@
+/* eslint-disable react/jsx-one-expression-per-line */
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { Link } from 'react-router-dom';
+import { Form, Button, Row, Col, Divider } from 'antd';
+import { PropTypes } from 'prop-types';
 import { handleEditComment, handleAddComment } from '../actions/comments';
 import { getFieldInput, getFieldConfig } from './FormField';
-import { Form, Button, Row, Col, Divider } from 'antd';
-import { Link } from 'react-router-dom';
-import { PropTypes } from 'prop-types';
 
 class CommentForm extends Component {
-  static propTypes = {
-    commentId: PropTypes.string,
-    postId: PropTypes.string
-  };
-
   handleSubmit = e => {
     e.preventDefault();
-    const { commentId, postId, addComment, editComment } = this.props;
+    const { commentId, postId, addComment, editComment, form, closeModal } = this.props;
 
-    this.props.form.validateFields((err, values) => {
+    form.validateFields((err, values) => {
+      const comment = values;
       if (!err) {
-        console.log('Received values of form: ', values);
-
         if (commentId) {
-          values['id'] = commentId;
+          comment.id = commentId;
           editComment(values);
-          this.props.closeModal();
+          closeModal();
         } else {
-          values['parentId'] = postId;
-          addComment(values);
+          comment.parentId = postId;
+          addComment(comment);
         }
       }
     });
   };
 
   render() {
-    const { commentId, comment } = this.props;
+    const { commentId, comment, closeModal } = this.props;
     const { form } = this.props;
     const formItemLayout = {
       labelCol: { span: 5 },
@@ -50,7 +45,7 @@ class CommentForm extends Component {
           <Form.Item {...formItemLayout} label={<b>Content</b>}>
             {getFieldConfig('body', comment.body, form)(getFieldInput('text'))}
           </Form.Item>
-          {/* Author field should not apper at the form when it's Edit Comment action*/}
+          {/* // Author field should not apper at the form when it's Edit Comment action */}
           {formRule === 'Create' && (
             <Form.Item {...formItemLayout} label={<b>Author</b>}>
               {getFieldConfig('author', comment.author, form)(getFieldInput('input'))}
@@ -65,7 +60,7 @@ class CommentForm extends Component {
                     block
                     onClick={() => {
                       if (formRule === 'Edit') {
-                        this.props.closeModal();
+                        closeModal();
                       }
                     }}
                   >
@@ -106,6 +101,10 @@ function mapStateToProps({ comments }, props) {
     }
   };
 }
+
+CommentForm.propTypes = {
+  postId: PropTypes.string.isRequired
+};
 
 export default connect(
   mapStateToProps,

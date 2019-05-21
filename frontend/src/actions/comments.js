@@ -6,7 +6,7 @@ import {
   editComment as edit,
   voteComment as vote,
   deleteComment as remove
-} from './../services/CommentsService';
+} from '../services/CommentsService';
 
 export const ADD_COMMENT = 'ADD_COMMENT';
 export const RECEIVE_COMMENTS = 'RECEIVE_COMMENTS';
@@ -41,15 +41,16 @@ function removePost(comment) {
   };
 }
 
-export function handleAddComment(comment) {
+export function handleAddComment(newComment) {
+  const comment = newComment;
   return dispatch => {
     dispatch(showLoading());
-    comment['id'] = v4();
-    comment['timestamp'] = Date.now();
+    comment.id = v4();
+    comment.timestamp = Date.now();
     return createComment(comment)
       .then(res => {
-        const comment = res.data;
-        dispatch(addComment(comment));
+        const commentReceived = res.data;
+        dispatch(addComment(commentReceived));
       })
       .finally(() => dispatch(hideLoading()));
   };
@@ -58,12 +59,11 @@ export function handleAddComment(comment) {
 export function handleEditComment(comment) {
   return dispatch => {
     dispatch(showLoading());
-    console.log(JSON.stringify(comment));
     const { title, body } = comment;
     return edit({ title, body }, comment.id)
       .then(res => {
-        const comment = res.data;
-        dispatch(editComment(comment));
+        const commentReceived = res.data;
+        dispatch(editComment(commentReceived));
       })
       .finally(() => dispatch(hideLoading()));
   };
@@ -74,8 +74,8 @@ export function handleVoteComment(id, option) {
     dispatch(showLoading());
     return vote(id, option)
       .then(res => {
-        const comment = res.data;
-        dispatch(editComment(comment));
+        const commentReceived = res.data;
+        dispatch(editComment(commentReceived));
       })
       .finally(() => dispatch(hideLoading()));
   };
@@ -86,8 +86,8 @@ export function handleRemoveComment(commentId) {
     dispatch(showLoading());
     return remove(commentId)
       .then(res => {
-        const comment = res.data;
-        dispatch(removePost(comment));
+        const commentReceived = res.data;
+        dispatch(removePost(commentReceived));
       })
       .finally(() => dispatch(hideLoading()));
   };

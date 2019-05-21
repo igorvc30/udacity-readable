@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
-import { BrowserRouter as Router, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Route, NavLink, Switch } from 'react-router-dom';
 import 'antd/dist/antd.css';
 import './App.css';
 import { Layout, Menu, Icon } from 'antd';
-import { NavLink, Switch } from 'react-router-dom';
 import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 import LoadingBar from 'react-redux-loading';
 import { handleCategoriesList } from '../actions/categories';
 import { handleInitialPosts } from '../actions/posts';
@@ -14,8 +14,9 @@ import PostForm from './PostForm';
 
 class App extends Component {
   componentDidMount() {
-    this.props.dispatch(handleCategoriesList());
-    this.props.dispatch(handleInitialPosts());
+    const { getCategoriesList, getInitialPosts } = this.props;
+    getCategoriesList();
+    getInitialPosts();
   }
 
   render() {
@@ -28,7 +29,7 @@ class App extends Component {
             <Menu
               theme="dark"
               mode="horizontal"
-              defaultSelectedKeys={[`${category ? category : 'home'}`]}
+              defaultSelectedKeys={[`${category}`]}
               style={{ lineHeight: '64px' }}
             >
               <Menu.Item key="home">
@@ -36,10 +37,10 @@ class App extends Component {
                   <Icon type="home" theme="filled" style={{ fontSize: '26px' }} />
                 </NavLink>
               </Menu.Item>
-              {categories.map(category => (
-                <Menu.Item key={category}>
-                  <NavLink to={'/' + category} exact activeClassName="active">
-                    {category.toUpperCase()}
+              {categories.map(cat => (
+                <Menu.Item key={`${cat}1`}>
+                  <NavLink to={`/${cat}`} exact activeClassName="active">
+                    {cat.toUpperCase()}
                   </NavLink>
                 </Menu.Item>
               ))}
@@ -65,9 +66,27 @@ class App extends Component {
 
 function mapStateToProps({ categories, category }) {
   return {
-    categories: Object.keys(categories).map((key, index) => categories[key]),
-    category
+    // eslint-disable-next-line no-unused-vars
+    categories: Object.entries(categories).map(([key, value]) => value),
+    category: category || 'home'
   };
 }
 
-export default connect(mapStateToProps)(App);
+const mapDispatchToProps = dispatch => {
+  return {
+    getCategoriesList: () => dispatch(handleCategoriesList()),
+    getInitialPosts: () => dispatch(handleInitialPosts())
+  };
+};
+
+App.propTypes = {
+  categories: PropTypes.arrayOf(PropTypes.object).isRequired,
+  category: PropTypes.string.isRequired,
+  getCategoriesList: PropTypes.func.isRequired,
+  getInitialPosts: PropTypes.func.isRequired
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(App);

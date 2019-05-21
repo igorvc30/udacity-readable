@@ -1,24 +1,27 @@
+/* eslint-disable no-unused-vars */
+/* eslint-disable react/jsx-one-expression-per-line */
 import React from 'react';
 import { Table, Tooltip, Icon } from 'antd';
+import PropTypes from 'prop-types';
 import VoteButton from './VoteButton';
 import ActionsButtons from './ActionsButtons';
 import { handleVotePost } from '../actions/posts';
-import { PropTypes } from 'prop-types';
 
-const PostsTable = props => {
-  const { posts } = props;
+const PostsTable = ({ posts }) => {
+  const postsArray = Object.entries(posts).map(([index, value]) => value);
   const columns = [
     {
       title: (
         <Tooltip title="Sort by date">
           <span>
-            Title <Icon type="calendar" />
+            Title
+            <Icon type="calendar" />
           </span>
         </Tooltip>
       ),
       dataIndex: 'timestamp',
       width: 320,
-      key: 'title' + Date.now(),
+      key: `title ${Date.now()}`,
       sorter: (a, b) => {
         if (a.timestamp < b.timestamp) {
           return -1;
@@ -35,19 +38,19 @@ const PostsTable = props => {
       title: 'Author',
       dataIndex: 'author',
       width: 120,
-      key: 'author' + Date.now(),
+      key: `author ${Date.now()}`,
       render: text => <span>{text}</span>
     },
     {
       title: 'Coments',
       dataIndex: 'commentCount',
       width: 20,
-      key: 'commentCount' + Date.now(),
+      key: `commentCount ${Date.now()}`,
       render: text => <span>{text}</span>
     },
     {
       title: 'Score',
-      key: 'score' + Date.now(),
+      key: `score ${Date.now()}`,
       width: 50,
       sorter: (a, b) => {
         if (a.voteScore < b.voteScore) {
@@ -63,13 +66,12 @@ const PostsTable = props => {
     },
     {
       title: 'Action',
-      // dataIndex: 'id',
       width: 80,
-      key: 'action' + +Date.now(),
+      key: `action ${Date.now()}`,
       render: post => <ActionsButtons post={post} />
     }
   ];
-  return <Table columns={columns} dataSource={posts} rowKey="id" pagination={true} />;
+  return <Table columns={columns} dataSource={postsArray} rowKey="id" pagination />;
 };
 PostsTable.propTypes = {
   posts: PropTypes.arrayOf(PropTypes.object).isRequired

@@ -13,9 +13,7 @@ const DeleteButton = props => {
       onOk: () => {
         props.dispatch(props.handleRemove(id));
       },
-      onCancel: () => {
-        console.log('Cancel');
-      }
+      onCancel: () => {}
     });
   }
   const { id, size } = props;

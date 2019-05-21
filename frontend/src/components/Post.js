@@ -1,10 +1,10 @@
 import React from 'react';
 import { Card, Icon, Input, Badge, Row, Col } from 'antd';
+import { PropTypes } from 'prop-types';
+import moment from 'moment';
 import VoteButton from './VoteButton';
 import ActionsButtons from './ActionsButtons';
 import { handleVotePost } from '../actions/posts';
-import moment from 'moment';
-import { PropTypes } from 'prop-types';
 
 const Post = props => {
   const { post } = props;
@@ -39,7 +39,7 @@ const Post = props => {
 };
 
 Post.propTypes = {
-  post: PropTypes.object.isRequired
+  post: PropTypes.instanceOf(Object).isRequired
 };
 
 export default Post;

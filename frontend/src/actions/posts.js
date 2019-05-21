@@ -7,7 +7,7 @@ import {
   votePost as vote,
   deletePost as remove,
   getPostsCategory
-} from './../services/PostService';
+} from '../services/PostService';
 
 export const ADD_POST = 'ADD_POST';
 export const RECEIVE_POSTS = 'RECEIVE_POSTS';
@@ -51,15 +51,16 @@ export function sortPosts(sortType) {
   };
 }
 
-export function handleAddPost(post) {
+export function handleAddPost(newPost) {
   return dispatch => {
     dispatch(showLoading());
-    post['id'] = v4();
-    post['timestamp'] = Date.now();
+    const post = newPost;
+    post.id = v4();
+    post.timestamp = Date.now();
     return createPost(post)
       .then(res => {
-        const post = res.data;
-        dispatch(addPost(post));
+        const postReceived = res.data;
+        dispatch(addPost(postReceived));
       })
       .finally(() => dispatch(hideLoading()));
   };
@@ -68,12 +69,11 @@ export function handleAddPost(post) {
 export function handleEditPost(post) {
   return dispatch => {
     dispatch(showLoading());
-    console.log(JSON.stringify(post));
     const { title, body } = post;
     return edit({ title, body }, post.id)
       .then(res => {
-        const post = res.data;
-        dispatch(editPost(post));
+        const postReceived = res.data;
+        dispatch(editPost(postReceived));
       })
       .finally(() => dispatch(hideLoading()));
   };

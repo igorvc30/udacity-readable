@@ -1,4 +1,4 @@
-import { HTTP } from './config';
+import HTTP from './config';
 
 export const getPosts = () => {
   return HTTP.get(`/posts`);
@@ -17,7 +17,6 @@ export const editPost = (post, postId) => {
 };
 
 export const deletePost = postId => {
-  console.log(`DELETE ${postId}`);
   return HTTP.delete(`/posts/${postId}`);
 };
 

@@ -2,15 +2,15 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { Button, Row, Col } from 'antd';
+import PropTypes from 'prop-types';
 import { handleRemovePost } from '../actions/posts';
 import DeleteButton from './DeleteButton';
-import { PropTypes } from 'prop-types';
 
 const ActionsButtons = props => {
   const { post } = props;
   return (
     <>
-      <Row type="flex" justify="start" gutter={5}>
+      <Row type="flex" justify="start" gutter={2}>
         <Col>
           <DeleteButton id={post.id} handleRemove={handleRemovePost} />
         </Col>
@@ -30,7 +30,7 @@ const ActionsButtons = props => {
 };
 
 ActionsButtons.propTypes = {
-  post: PropTypes.object.isRequired
+  post: PropTypes.instanceOf(Object).isRequired
 };
 
 export default connect()(ActionsButtons);

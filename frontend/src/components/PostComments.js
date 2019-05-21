@@ -1,18 +1,13 @@
 import React, { Component } from 'react';
 import { Comment, Tooltip, List, Modal, Divider, Button } from 'antd';
+import moment from 'moment';
+import { PropTypes } from 'prop-types';
 import VoteButton from './VoteButton';
 import { handleVoteComment, handleRemoveComment } from '../actions/comments';
 import DeleteButton from './DeleteButton';
-// import EditCommentButton from './EditCommentButton';
 import CommentForm from './CommentForm';
-import moment from 'moment';
-import { PropTypes } from 'prop-types';
 
 class PostComments extends Component {
-  static propTypes = {
-    comments: PropTypes.PropTypes.object.isRequired
-  };
-
   state = { visible: false, commentId: '' };
 
   showModal = commentId => {
@@ -31,9 +26,9 @@ class PostComments extends Component {
   render() {
     const { comments } = this.props;
     const { commentId, visible } = this.state;
-    let commentsArray = Object.entries(comments)
-      .map(([key, value]) => value)
-      .sort((a, b) => a['timestamp'] < b['timestamp']);
+    const commentsArray = Object.entries(comments)
+      .map(([value]) => value)
+      .sort((a, b) => a.timestamp < b.timestamp);
 
     const commentsData = commentsArray.map(comment => {
       return {
@@ -82,10 +77,10 @@ class PostComments extends Component {
         />
         <Modal
           visible={visible}
-          destroyOnClose={true}
+          destroyOnClose
           footer={null}
           closable
-          centered={true}
+          centered
           width={700}
           style={{ whiteSpace: 'initial' }}
         >
@@ -95,5 +90,9 @@ class PostComments extends Component {
     );
   }
 }
+
+PostComments.propTypes = {
+  comments: PropTypes.instanceOf(Object).isRequired
+};
 
 export default PostComments;

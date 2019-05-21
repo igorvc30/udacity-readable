@@ -1,3 +1,5 @@
+/* eslint-disable react/prop-types */
+/* eslint-disable react/jsx-one-expression-per-line */
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Radio, Button, Tooltip, Row, Col, Icon, Divider } from 'antd';
@@ -11,12 +13,11 @@ class PostsList extends Component {
     view: 'grid'
   };
 
-  componentWillReceiveProps(nextProps) {
-    const { category } = nextProps;
-    if (category !== this.props.category) {
-      category
-        ? this.props.dispatch(handlePostsCategory(category))
-        : this.props.dispatch(handleInitialPosts());
+  componentDidUpdate(prevProps) {
+    const { category, getPostCategory, getInitialPosts } = this.props;
+    const prevCategory = prevProps.category;
+    if (prevCategory !== category) {
+      (category ? getPostCategory(category) : getInitialPosts())();
     }
   }
 
@@ -25,18 +26,21 @@ class PostsList extends Component {
   };
 
   handleSortChange = e => {
+    const { sort } = this.props;
     const sortType = e.target.value;
-    this.props.dispatch(sortPosts(sortType));
+    sort(sortType);
   };
 
   render() {
-    const { posts } = this.props;
-    const postsArray = Object.entries(posts).map(([key, value]) => value);
+    const { posts, postsIds } = this.props;
     const { view } = this.state;
+    if (postsIds === undefined) {
+      return <span>NADA {JSON.stringify(postsIds)}</span>;
+    }
     return (
       <div style={{ minHeight: 400 }}>
-        <Row type="flex" justify="center">
-          <Col span={12} offset={2}>
+        <Row type="flex" justify="start">
+          <Col span={14}>
             <h1>POSTS</h1>
           </Col>
           <Col span={3}>
@@ -49,7 +53,7 @@ class PostsList extends Component {
             </Link>
           </Col>
           <Col span={3}>
-            <Radio.Group value={this.state.view} onChange={this.handleViewChange}>
+            <Radio.Group value={view} onChange={this.handleViewChange}>
               <span>VIEW:&nbsp;</span>
               <Radio.Button value="grid">
                 <Icon type="appstore" />
@@ -82,14 +86,18 @@ class PostsList extends Component {
           </Col>
         </Row>
         <Divider orientation="left" />
-        {postsArray.length > 0 && view === 'list' && <PostsTable posts={postsArray} />}
-        {postsArray.length > 0 && view === 'grid' && (
+
+        {postsIds.length > 0 && view === 'list' && <PostsTable posts={posts} />}
+        {postsIds.length > 0 && view === 'grid' && (
           <Row gutter={20}>
-            {postsArray.map(post => (
-              <Col key={'col' + post.id} span={12} style={{ marginBottom: 20 }}>
-                <Post post={post} />
-              </Col>
-            ))}
+            {postsIds.map(id => {
+              const post = posts[id];
+              return (
+                <Col key={`col${post.id}`} span={12} style={{ marginBottom: 20 }}>
+                  <Post post={post} />
+                </Col>
+              );
+            })}
           </Row>
         )}
       </div>
@@ -100,7 +108,21 @@ const mapStateToProps = ({ posts }, props) => {
   const { category } = props.match.params;
   return {
     category,
-    posts
+    posts,
+    postsIds: Object.keys(posts)
   };
 };
-export default withRouter(connect(mapStateToProps)(PostsList));
+
+const mapDispatchToProps = dispatch => {
+  return {
+    getPostCategory: category => dispatch(handlePostsCategory(category)),
+    getInitialPosts: () => dispatch(handleInitialPosts()),
+    sort: sortType => dispatch(sortPosts(sortType))
+  };
+};
+export default withRouter(
+  connect(
+    mapStateToProps,
+    mapDispatchToProps
+  )(PostsList)
+);
