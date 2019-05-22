@@ -69,8 +69,8 @@ export function handleAddPost(newPost) {
 export function handleEditPost(post) {
   return dispatch => {
     dispatch(showLoading());
-    const { title, body } = post;
-    return edit({ title, body }, post.id)
+    const { title, body, category } = post;
+    return edit({ title, body, category }, post.id)
       .then(res => {
         const postReceived = res.data;
         dispatch(editPost(postReceived));

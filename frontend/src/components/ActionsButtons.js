@@ -12,7 +12,7 @@ const ActionsButtons = props => {
     <>
       <Row type="flex" justify="start" gutter={2}>
         <Col>
-          <DeleteButton id={post.id} handleRemove={handleRemovePost} />
+          <DeleteButton id={post.id} handleRemove={handleRemovePost} purpose="post" />
         </Col>
         <Col>
           <Link to={`/post/edit/${post.id}`}>

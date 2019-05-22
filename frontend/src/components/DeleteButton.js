@@ -1,31 +1,18 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { Button, Modal } from 'antd';
+import { Button } from 'antd';
 import { PropTypes } from 'prop-types';
+import { showModal } from '../actions/deleteModal';
 
 const DeleteButton = props => {
-  function showDeleteConfirm(id) {
-    Modal.confirm({
-      title: 'Are ready to delete this?',
-      okText: 'Yes',
-      okType: 'danger',
-      cancelText: 'No',
-      onOk: () => {
-        props.dispatch(props.handleRemove(id));
-      },
-      onCancel: () => {}
-    });
-  }
-  const { id, size } = props;
+  const { id, size, dispatch, handleRemove, purpose } = props;
   return (
     <>
       <Button
         size={size}
         type="danger"
         icon="delete"
-        onClick={() => {
-          showDeleteConfirm(id);
-        }}
+        onClick={() => dispatch(showModal(id, handleRemove, purpose))}
       />
     </>
   );
@@ -33,7 +20,8 @@ const DeleteButton = props => {
 DeleteButton.propTypes = {
   handleRemove: PropTypes.func.isRequired,
   size: PropTypes.string,
-  id: PropTypes.string.isRequired
+  id: PropTypes.string.isRequired,
+  purpose: PropTypes.string.isRequired
 };
 
 DeleteButton.defaultProps = {

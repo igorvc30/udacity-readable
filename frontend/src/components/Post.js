@@ -6,8 +6,7 @@ import VoteButton from './VoteButton';
 import ActionsButtons from './ActionsButtons';
 import { handleVotePost } from '../actions/posts';
 
-const Post = props => {
-  const { post } = props;
+const Post = ({ post }) => {
   const { TextArea } = Input;
   return (
     <Card

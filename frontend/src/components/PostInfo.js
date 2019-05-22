@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Divider } from 'antd';
 import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 import { handleGetAllComments } from '../actions/comments';
 import Post from './Post';
 import PostComments from './PostComments';
@@ -9,8 +10,14 @@ import Page404 from './Page404';
 
 class PostInfo extends Component {
   componentWillMount() {
-    const { dispatch, post } = this.props;
-    if (post) dispatch(handleGetAllComments(post.id));
+    const { getAllComments, post } = this.props;
+    if (post) getAllComments(post.id);
+  }
+
+  componentDidUpdate(prevProps) {
+    /** This will try to get all commments when the page refreshes. */
+    const { getAllComments, post } = this.props;
+    if (!prevProps.post && post && post.commentCount) getAllComments(post.id);
   }
 
   render() {
@@ -23,7 +30,7 @@ class PostInfo extends Component {
           <h1>POST INFORMATION</h1>
         </Divider>
         <Post post={post} />
-        {Object.keys(comments).length > 0 && <PostComments comments={comments} />}
+        {comments.length > 0 && <PostComments comments={comments} />}
         <CommentForm postId={post.id} />
       </>
     );
@@ -34,8 +41,29 @@ const mapStateToProps = ({ posts, comments }, props) => {
   const { id } = props.match.params;
   return {
     post: id ? posts[id] : { id: '', category: '', title: '', body: '', author: '' },
-    comments
+    comments: Object.values(comments)
   };
 };
 
-export default connect(mapStateToProps)(PostInfo);
+const mapDispatchToProps = dispatch => {
+  return {
+    getAllComments: postId => dispatch(handleGetAllComments(postId))
+  };
+};
+
+PostInfo.propTypes = {
+  comments: PropTypes.arrayOf(PropTypes.object).isRequired,
+  post: PropTypes.shape({
+    id: PropTypes.string.isRequired,
+    category: PropTypes.string.isRequired,
+    title: PropTypes.string.isRequired,
+    body: PropTypes.string.isRequired,
+    author: PropTypes.string.isRequired
+  }).isRequired,
+  getAllComments: PropTypes.func.isRequired
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(PostInfo);

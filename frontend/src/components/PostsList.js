@@ -13,11 +13,25 @@ class PostsList extends Component {
     view: 'grid'
   };
 
+  componentWillMount() {
+    const { category, getPostCategory, getInitialPosts } = this.props;
+    if (category === 'home') {
+      getInitialPosts();
+    } else {
+      getPostCategory(category);
+    }
+  }
+
   componentDidUpdate(prevProps) {
     const { category, getPostCategory, getInitialPosts } = this.props;
     const prevCategory = prevProps.category;
-    if (prevCategory !== category) {
-      (category ? getPostCategory(category) : getInitialPosts())();
+    if (prevCategory === category) {
+      return;
+    }
+    if (category === 'home') {
+      getInitialPosts();
+    } else {
+      getPostCategory(category);
     }
   }
 
@@ -34,8 +48,8 @@ class PostsList extends Component {
   render() {
     const { posts, postsIds } = this.props;
     const { view } = this.state;
-    if (postsIds === undefined) {
-      return <span>NADA {JSON.stringify(postsIds)}</span>;
+    if (postsIds.length === 0) {
+      return <b>Sorry, we couldn&apos;t find any post!</b>;
     }
     return (
       <div style={{ minHeight: 400 }}>
@@ -107,7 +121,7 @@ class PostsList extends Component {
 const mapStateToProps = ({ posts }, props) => {
   const { category } = props.match.params;
   return {
-    category,
+    category: category || 'home',
     posts,
     postsIds: Object.keys(posts)
   };

@@ -1,80 +1,51 @@
-/* eslint-disable no-unused-vars */
-/* eslint-disable react/jsx-one-expression-per-line */
 import React from 'react';
-import { Table, Tooltip, Icon } from 'antd';
+import { Table } from 'antd';
 import PropTypes from 'prop-types';
 import VoteButton from './VoteButton';
 import ActionsButtons from './ActionsButtons';
 import { handleVotePost } from '../actions/posts';
 
 const PostsTable = ({ posts }) => {
-  const postsArray = Object.entries(posts).map(([index, value]) => value);
+  const postsArray = Object.keys(posts).map(key => posts[key]);
   const columns = [
     {
-      title: (
-        <Tooltip title="Sort by date">
-          <span>
-            Title
-            <Icon type="calendar" />
-          </span>
-        </Tooltip>
-      ),
-      dataIndex: 'timestamp',
+      title: <b>Title</b>,
+      dataIndex: 'title',
       width: 320,
-      key: `title ${Date.now()}`,
-      sorter: (a, b) => {
-        if (a.timestamp < b.timestamp) {
-          return -1;
-        }
-        if (a.timestamp > b.timestamp) {
-          return 1;
-        }
-        return 0;
-      },
-      sortDirections: ['ascend', 'descend'],
-      render: (text, row) => <span>{row.title}</span>
+      key: `title`,
+      render: title => <span>{title}</span>
     },
     {
-      title: 'Author',
+      title: <b>Author</b>,
       dataIndex: 'author',
       width: 120,
-      key: `author ${Date.now()}`,
-      render: text => <span>{text}</span>
+      key: `author`,
+      render: author => <span>{author}</span>
     },
     {
-      title: 'Coments',
+      title: <b>Coments</b>,
       dataIndex: 'commentCount',
       width: 20,
-      key: `commentCount ${Date.now()}`,
-      render: text => <span>{text}</span>
+      key: `commentCount`,
+      render: commentCount => <span>{commentCount}</span>
     },
     {
-      title: 'Score',
-      key: `score ${Date.now()}`,
+      title: <b>Score</b>,
+      key: `score`,
       width: 50,
-      sorter: (a, b) => {
-        if (a.voteScore < b.voteScore) {
-          return -1;
-        }
-        if (a.voteScore > b.voteScore) {
-          return 1;
-        }
-        return 0;
-      },
-      sortDirections: ['ascend', 'descend'],
       render: post => <VoteButton handleVote={handleVotePost} data={post} />
     },
     {
-      title: 'Action',
+      title: <b>Actions</b>,
       width: 80,
-      key: `action ${Date.now()}`,
+      key: `actions`,
       render: post => <ActionsButtons post={post} />
     }
   ];
   return <Table columns={columns} dataSource={postsArray} rowKey="id" pagination />;
 };
 PostsTable.propTypes = {
-  posts: PropTypes.arrayOf(PropTypes.object).isRequired
+  posts: PropTypes.instanceOf(Object).isRequired
 };
 
 export default PostsTable;

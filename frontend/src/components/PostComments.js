@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Comment, Tooltip, List, Modal, Divider, Button } from 'antd';
 import moment from 'moment';
-import { PropTypes } from 'prop-types';
+import PropTypes from 'prop-types';
 import VoteButton from './VoteButton';
 import { handleVoteComment, handleRemoveComment } from '../actions/comments';
 import DeleteButton from './DeleteButton';
@@ -26,36 +26,39 @@ class PostComments extends Component {
   render() {
     const { comments } = this.props;
     const { commentId, visible } = this.state;
-    const commentsArray = Object.entries(comments)
-      .map(([value]) => value)
-      .sort((a, b) => a.timestamp < b.timestamp);
-
-    const commentsData = commentsArray.map(comment => {
-      return {
-        actions: [
-          <VoteButton data={comment} handleVote={handleVoteComment} size="small" />,
-          <Divider type="vertical" />,
-          <DeleteButton id={comment.id} handleRemove={handleRemoveComment} size="small" />,
-          <Divider type="vertical" />,
-          <Button icon="edit" onClick={() => this.showModal(comment.id)} size="small" />
-        ],
-        author: comment.author,
-        content: <p>{comment.body}</p>,
-        datetime: (
-          <Tooltip
-            title={moment()
-              .subtract(1, 'days')
-              .format('YYYY-MM-DD HH:mm:ss')}
-          >
-            <span>
-              {moment(comment.timestamp)
-                .startOf('hour')
-                .fromNow()}
-            </span>
-          </Tooltip>
-        )
-      };
-    });
+    const commentsData = comments
+      .sort((a, b) => a.timestamp < b.timestamp)
+      .map(comment => {
+        return {
+          actions: [
+            <VoteButton data={comment} handleVote={handleVoteComment} size="small" />,
+            <Divider type="vertical" />,
+            <DeleteButton
+              id={comment.id}
+              handleRemove={handleRemoveComment}
+              size="small"
+              purpose="comment"
+            />,
+            <Divider type="vertical" />,
+            <Button icon="edit" onClick={() => this.showModal(comment.id)} size="small" />
+          ],
+          author: comment.author,
+          content: <p>{comment.body}</p>,
+          datetime: (
+            <Tooltip
+              title={moment()
+                .subtract(1, 'days')
+                .format('YYYY-MM-DD HH:mm:ss')}
+            >
+              <span>
+                {moment(comment.timestamp)
+                  .startOf('hour')
+                  .fromNow()}
+              </span>
+            </Tooltip>
+          )
+        };
+      });
 
     return (
       <>

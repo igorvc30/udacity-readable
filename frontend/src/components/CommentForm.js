@@ -11,7 +11,7 @@ class CommentForm extends Component {
   handleSubmit = e => {
     e.preventDefault();
     const { commentId, postId, addComment, editComment, form, closeModal } = this.props;
-
+    let commentSubmitted = false;
     form.validateFields((err, values) => {
       const comment = values;
       if (!err) {
@@ -23,8 +23,15 @@ class CommentForm extends Component {
           comment.parentId = postId;
           addComment(comment);
         }
+        commentSubmitted = true;
       }
     });
+    if (commentSubmitted) {
+      form.setFieldsValue({
+        body: '',
+        author: ''
+      });
+    }
   };
 
   render() {
